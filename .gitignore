@@ -13,3 +13,8 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+.vscode/launch.json
+static/images/icon/Thumbs.db
+tmp/build-errors.log
+tmp/main
+*.log
