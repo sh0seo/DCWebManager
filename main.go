@@ -1,3 +1,4 @@
+// main.go
 package main
 
 import (
@@ -9,10 +10,13 @@ import (
 )
 
 // NAME is App name
-const NAME = "\n\n\n\nDCCaffe Web Manager Start\n\n\n\n"
+const NAME = "DCCaffe Web Manager Start"
+
+// PORT is Server port
+const PORT = ":1323"
 
 func main() {
-	log.Printf(NAME)
+	log.Printf("%s[%s]", NAME, PORT)
 
 	fs := http.FileServer(http.Dir("./static/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
@@ -28,16 +32,23 @@ func main() {
 		tmplIndex := "templates/index.html"
 		tmplHeader := "templates/include/header.html"
 		tmplFooter := "templates/include/footer.html"
-		// tmplPath2 := "templates/login.html"
+		tmplSide := "templates/include/side.html"
 
-		tmpl := template.Must(template.ParseFiles(tmplIndex, tmplHeader, tmplFooter))
-		time := struct {
-			Title string
+		tmpl := template.Must(template.ParseFiles(tmplIndex, tmplHeader, tmplFooter, tmplSide))
+		params := struct {
+			Title    string
+			PageName string
+			UserName string
 		}{
-			Title: fmt.Sprintf("%s %s", NAME, time.Now()),
+			Title:    fmt.Sprintf("%s %s", NAME, time.Now()),
+			PageName: "index",
+			UserName: "Teseter",
 		}
-		tmpl.Execute(w, time)
-
+		err := tmpl.ExecuteTemplate(w, "main", params)
+		if err != nil {
+			http.Error(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
+			log.Print(err)
+		}
 	})
 
 	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
@@ -56,6 +67,6 @@ func main() {
 		fmt.Fprintf(w, `{result":"success","code":200}`)
 	})
 
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(PORT, nil)
 	log.Fatal(err)
 }
