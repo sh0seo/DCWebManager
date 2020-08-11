@@ -1,4 +1,4 @@
-{{ define "layout" }}
+{{define "layout"}}
 <!DOCTYPE html>
 <html>
   <header>
@@ -27,17 +27,17 @@
 
     <div class="page-container">
       <!-- side menu -->
-      {{ template "side" . }}
+      {{template "side" .}}
 
       <div class="main-content">
         <!-- header -->
-        {{ template "header" . }}
+        {{template "header" .}}
 
         <!-- page title area start -->
-        {{ template "content"}}
+        {{template "content"}}
 
         <!-- footer -->
-        {{ template "footer" . }}
+        {{template "footer" .}}
       </div> <!-- main-content -->
     </div> <!-- page-container -->
 
@@ -58,4 +58,4 @@
     <script src="/static/js/scripts.js"></script>
   </body>
 </html>
-{{ end }}
+{{end}}

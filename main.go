@@ -6,7 +6,6 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"time"
 )
 
 // NAME is App name
@@ -14,6 +13,12 @@ const NAME = "DCCaffe Web Manager Start"
 
 // PORT is Server port
 const PORT = ":1323"
+
+// Params is data
+type Params struct {
+	PageName string
+	UserName string
+}
 
 func main() {
 	log.Printf("%s[%s]", NAME, PORT)
@@ -26,36 +31,135 @@ func main() {
 		http.ServeFile(w, r, "./static/icon/favicon.ico")
 	})
 
+	http.HandleFunc("/user_regist", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("[%7s] /", r.Method)
+		w.Header().Set("Content-Type", "text/html")
+
+		tmplName := "templates/user_manage.html"
+		tmpl := getTemplate(tmplName)
+
+		p := Params{
+			PageName: "user_regist",
+			UserName: "Tester",
+		}
+
+		if err := tmpl.ExecuteTemplate(w, "layout", p); err != nil {
+			http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+			log.Print(err)
+		}
+	})
+
+	http.HandleFunc("/user_manage", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("[%7s] /", r.Method)
+		w.Header().Set("Content-Type", "text/html")
+
+		tmplName := "templates/user_manage.html"
+		tmpl := getTemplate(tmplName)
+
+		p := Params{
+			PageName: "user_manage",
+			UserName: "Tester",
+		}
+
+		if err := tmpl.ExecuteTemplate(w, "layout", p); err != nil {
+			http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+			log.Print(err)
+		}
+	})
+
+	http.HandleFunc("/menu_manage", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("[%7s] /", r.Method)
+		w.Header().Set("Content-Type", "text/html")
+
+		tmplName := "templates/menu_manage.html"
+		tmpl := getTemplate(tmplName)
+
+		p := Params{
+			PageName: "user_manage",
+			UserName: "Tester",
+		}
+
+		if err := tmpl.ExecuteTemplate(w, "layout", p); err != nil {
+			http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+			log.Print(err)
+		}
+	})
+
+	http.HandleFunc("/cancel_order_manage", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("[%7s] /", r.Method)
+		w.Header().Set("Content-Type", "text/html")
+
+		tmplName := "templates/cancel_order_manage.html"
+		tmpl := getTemplate(tmplName)
+
+		p := Params{
+			PageName: "cancel_order_manage",
+			UserName: "Tester",
+		}
+
+		if err := tmpl.ExecuteTemplate(w, "layout", p); err != nil {
+			http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+			log.Print(err)
+		}
+	})
+
+	http.HandleFunc("/bill", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("[%7s] /", r.Method)
+		w.Header().Set("Content-Type", "text/html")
+
+		tmplName := "templates/bill.html"
+		tmpl := getTemplate(tmplName)
+
+		p := Params{
+			PageName: "bill",
+			UserName: "Tester",
+		}
+
+		if err := tmpl.ExecuteTemplate(w, "layout", p); err != nil {
+			http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+			log.Print(err)
+		}
+	})
+
+	http.HandleFunc("/customer_bill", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("[%7s] /", r.Method)
+		w.Header().Set("Content-Type", "text/html")
+
+		tmplName := "templates/customer_bill.html"
+		tmpl := getTemplate(tmplName)
+
+		p := Params{
+			PageName: "customer_bill",
+			UserName: "Tester",
+		}
+
+		if err := tmpl.ExecuteTemplate(w, "layout", p); err != nil {
+			http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
+			log.Print(err)
+		}
+	})
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("[%7s] /", r.Method)
 		w.Header().Set("Content-Type", "text/html")
 
 		tmplIndex := "templates/index.html"
-		tmplLayout := "templates/include/layout.html"
-		tmplHeader := "templates/include/header.html"
-		tmplFooter := "templates/include/footer.html"
-		tmplSide := "templates/include/side.html"
+		tmpl := getTemplate(tmplIndex)
 
-		tmpl := template.Must(template.ParseFiles(tmplIndex, tmplLayout, tmplHeader, tmplFooter, tmplSide))
-		params := struct {
-			Title    string
-			PageName string
-			UserName string
-		}{
-			Title:    fmt.Sprintf("%s %s", NAME, time.Now()),
+		p := Params{
 			PageName: "index",
 			UserName: "Teseter",
 		}
-		err := tmpl.ExecuteTemplate(w, "index", params)
+		err := tmpl.ExecuteTemplate(w, "layout", p)
 		if err != nil {
-			http.Error(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
+			http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
 			log.Print(err)
 		}
 	})
 
 	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("[%7s] /login", r.Method)
-		w.Header().Set("Content-Type", "text/html"
+		w.Header().Set("Content-Type", "text/html")
 
 		if r.Method != "POST" {
 			http.Error(w, "405 Method Not Allowed", http.StatusMethodNotAllowed)
@@ -68,11 +172,20 @@ func main() {
 
 	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("[%7s] /logout", r.Method)
-		w.Header().Set("Content-Type", "text/html"
+		w.Header().Set("Content-Type", "text/html")
 
 		fmt.Fprintf(w, `{result":"success","code":200}`)
 	})
 
 	err := http.ListenAndServe(PORT, nil)
 	log.Fatal(err)
+}
+
+func getTemplate(name string) *template.Template {
+	tmplLayout := "templates/include/layout.html"
+	tmplHeader := "templates/include/header.html"
+	tmplFooter := "templates/include/footer.html"
+	tmplSide := "templates/include/side.html"
+
+	return template.Must(template.ParseFiles(name, tmplLayout, tmplHeader, tmplFooter, tmplSide))
 }

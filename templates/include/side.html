@@ -2,35 +2,35 @@
 <div class="sidebar-menu">
   <div class="sidebar-header">
     <div class="logo">
-      <a href="#" style="color:white;font-size:17px;">DCCaffe<br />Web Manager</a>
+      <a href="/" style="color:white;font-size:17px;">DCCaffe<br />Web Manager</a>
     </div>
   </div>
   <div class="main-menu">
     <div class="menu-inner">
       <nav>
         <ul class="metismenu" id="menu">
-          <li {{if eq .PageName "index"}}class="active"{{end}}>
+          <li id="side-root">
             <a href="/" aria-expanded="true"><i class="ti-dashboard"></i><span>홈</span></a>
           </li>
-          <li {{if and (eq .PageName "user_regist") (eq .PageName "user_list")}}class="active"{{end}}>
+          <li id="side-user">
             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-user"></i><span>사용자 관리</span></a>
             <ul class="collapse">
-              <li {{if eq .PageName "user_regit"}}class="active"{{end}}><a href="user_regist">사용자 등록</a></li>
-              <li {{if eq .PageName "user_list"}}class="active"{{end}}><a href="user_manage">사용자 수정/삭제</a></li>
+              <li id="side-user-regist"><a href="user_regist">사용자 등록</a></li>
+              <li id="side-user-manage"><a href="user_manage">사용자 수정/삭제</a></li>
             </ul>
           </li>
-          <li {{if and (eq .PageName "menu_manage") (eq .PageName "cancel_order_manage")}}class="active"{{end}}>
+          <li id="side-manage">
             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pencil-alt"></i><span>카페 관리</span></a>
             <ul class="collapse">
-              <li {{if eq .PageName "menu_manage"}}class="active"{{end}}><a href="menu_manage">카테고리/메뉴 관리</a></li>
-              <li {{if eq .PageName "cancel_order_manage"}}class="active"{{end}}><a href="cancel_order_manage">주문취소 관리</a></li>
+              <li id="side-manage-menu"><a href="menu_manage">카테고리/메뉴 관리</a></li>
+              <li id="side-manage-cancel"><a href="cancel_order_manage">주문취소 관리</a></li>
             </ul>
           </li>
-          <li {{if and (eq .PageName "bill") (eq .PageName "customer_bill")}}class="activie" {{ end }}>
+          <li id="side-bill">
             <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>카페 통계</span></a>
             <ul class="collapse">
-              <li {{if eq .PageName "bill"}}class="active"{{end}}><a href="bill">월말공제정산</a></li>
-              <li {{if eq .PageName "customer_bill"}}class="active"{{end}}><a href="customer_bill">손님결제정산</a></li>
+              <li id="side-bill-bill"><a href="bill">월말공제정산</a></li>
+              <li id="side-bill-customer"><a href="customer_bill">손님결제정산</a></li>
             </ul>
           </li>
         </ul>
@@ -38,4 +38,42 @@
     </div>
   </div>
 </div>
+
+<script lang="javascript">
+  var url = window.location.pathname;
+
+  if (url == "/") {
+    document.getElementById('side-root').className += "active";
+  } 
+
+  if (url == "/user_regist") {
+    document.getElementById('side-user').className += "active";
+    document.getElementById('side-user-regist').className += "active";
+  }
+
+  if (url == "/user_manage") {
+    document.getElementById('side-user').className += "active";
+    document.getElementById('side-user-manage').className += "active"
+  } 
+
+  if (url == "/menu_manage") {
+    document.getElementById('side-manage').className += "active";
+    document.getElementById('side-manage-menu').className += "active"
+  } 
+
+  if (url == "/cancel_order_manage") {
+    document.getElementById('side-manage').className += "active";
+    document.getElementById('side-manage-cancel').className += "active"
+  } 
+
+  if (url == "/bill") {
+    document.getElementById('side-bill').className += "active";
+    document.getElementById('side-bill-bill').className += "active"
+  } 
+  
+  if (url == "/customer_bill") {
+    document.getElementById('side-bill').className += "active";
+    document.getElementById('side-bill-customer').className += "active"
+  } 
+</script>
 {{ end }}
