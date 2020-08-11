@@ -16,7 +16,6 @@ const PORT = ":1323"
 
 // Params is data
 type Params struct {
-	PageName string
 	UserName string
 }
 
@@ -35,11 +34,10 @@ func main() {
 		log.Printf("[%7s] /", r.Method)
 		w.Header().Set("Content-Type", "text/html")
 
-		tmplName := "templates/user_manage.html"
+		tmplName := "templates/user_regist.html"
 		tmpl := getTemplate(tmplName)
 
 		p := Params{
-			PageName: "user_regist",
 			UserName: "Tester",
 		}
 
@@ -57,7 +55,6 @@ func main() {
 		tmpl := getTemplate(tmplName)
 
 		p := Params{
-			PageName: "user_manage",
 			UserName: "Tester",
 		}
 
@@ -75,7 +72,6 @@ func main() {
 		tmpl := getTemplate(tmplName)
 
 		p := Params{
-			PageName: "user_manage",
 			UserName: "Tester",
 		}
 
@@ -93,7 +89,6 @@ func main() {
 		tmpl := getTemplate(tmplName)
 
 		p := Params{
-			PageName: "cancel_order_manage",
 			UserName: "Tester",
 		}
 
@@ -111,7 +106,6 @@ func main() {
 		tmpl := getTemplate(tmplName)
 
 		p := Params{
-			PageName: "bill",
 			UserName: "Tester",
 		}
 
@@ -129,7 +123,6 @@ func main() {
 		tmpl := getTemplate(tmplName)
 
 		p := Params{
-			PageName: "customer_bill",
 			UserName: "Tester",
 		}
 
@@ -147,7 +140,6 @@ func main() {
 		tmpl := getTemplate(tmplIndex)
 
 		p := Params{
-			PageName: "index",
 			UserName: "Teseter",
 		}
 		err := tmpl.ExecuteTemplate(w, "layout", p)
